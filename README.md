@@ -32,12 +32,12 @@ docker compose up -d
 
 > 你也可以选择通过[HAOS加载项](https://github.com/AlexxIT/hassio-addons)来部署Go2rtc
 
-1. Open Go2rtc WebUI / 访问Go2rtc网页: `http://192.168.1.xx:1984`
+1. Open Go2rtc WebUI / 访问Go2rtc网页: `http://192.168.1.xx:1984/config.html`
 2. Config empty streams / 配置空视频流:
    ```yaml
    streams:
-      your_stream1:
-      your_stream2:
+     your_stream1:
+     your_stream2:
    ```
 3. Save & Restart
 
@@ -49,7 +49,44 @@ docker compose up -d
    cat << EOF > .env
    MILOCO_PASSWORD=your_miloco_password_md5
    CAMERA_ID=1234567890 # your camera did
-   RTSP_URL=rtsp://go2rtc:8554/your_stream1
+   RTSP_URL=rtsp://192.168.1.xx:8554/your_stream1
    EOF
    ```
 2. Restart micam / 重启转发服务: `docker compose restart micam1`
+
+
+## Configuration / 配置
+
+### Environments / 环境变量
+
+> [!Note]
+> 建议所有的环境变量配置在`.env`文件中，并使用`docker compose up -d`命令使其生效，不建议直接修改`docker-compose.yml`中的环境变量。
+
+1. Micam:
+   - `MILOCO_BASE_URL`: Miloco WebUI URL, Default: `https://miloco:8000`
+     > 如果通过[HAOS加载项](https://gitee.com/hasscc/addons)部署，则应配置为`https://homeassistant.local:28800`
+   - `MILOCO_PASSWORD`: Miloco WebUI Password (md5/lower), Required
+   - `CAMERA_ID`: Camera DID, Required
+     > 可在Miloco网页中通过F12开发者工具的网络请求日志查看
+   - `RTSP_URL`: RTSP URL, Required
+     > 转推RTSP流地址，如: `rtsp://192.168.1.xx:8554/your_stream1`，8554为Go2rtc提供的RTSP服务
+   - `VIDEO_CODEC`: Video Codec of the camera, Default: `hevc`
+   - `STREAM_CHANNEL`: Stream Channel of the camera, Default: `0`
+
+2. Miloco:
+   - `MILOCO_PORT`: Miloco listen port, Default: `8000`
+     > 如果与其他服务端口冲突，请修改此端口，并修改`MILOCO_BASE_URL`
+   - `MILOCO_HOST`: Miloco listen host, Default: `0.0.0.0`, Don't change
+   - `MILOCO_LOG_LEVEL`: Miloco log level, Default: `warning`
+
+
+## Integrations / 集成
+- [Home Assistant: Generic Camera](https://www.home-assistant.io/integrations/generic)
+- [Frigate NVR](https://github.com/blakeblackshear/frigate) / [HAOS Add-on](https://github.com/blakeblackshear/frigate-hass-addons)
+- [Scrypted](https://github.com/koush/scrypted) / [HAOS Add-on](https://github.com/koush/scrypted/wiki/Installation:-Home-Assistant-OS)
+
+
+## Links / 相关链接
+- [详细部署文档 & AI问答](https://zread.ai/miiot/micam)
+- [Xiaomi Miloco](https://github.com/XiaoMi/xiaomi-miloco)
+- [AlexxIT Go2rtc](https://github.com/AlexxIT/go2rtc)
