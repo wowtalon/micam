@@ -23,6 +23,7 @@ docker compose up -d
 > 你也可以选择通过[HAOS加载项](https://gitee.com/hasscc/addons)来部署Miloco，[一键添加](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgitee.com%2Fhasscc%2Faddons)加载项仓库。
 
 1. Open Miloco WebUI / 打开Miloco网页: `https://192.168.1.xx:8000`
+   > Miloco使用了自签证书，请通过 **https** 访问，并忽略证书错误。
 2. Set miloco password / 设置Miloco密码
 3. Bind your Xiaomi account / 绑定小米账号
 4. Camera offline ? [[Xiaomi Miloco Q&A]](https://github.com/XiaoMi/xiaomi-miloco/issues/56)
@@ -42,7 +43,7 @@ docker compose up -d
 3. Save & Restart
 
 
-### Micam
+### [Micam](https://zread.ai/miiot/micam)
 
 1. Set environment variables / 设置环境变量:
    ```shell
@@ -63,14 +64,14 @@ docker compose up -d
 > 建议所有的环境变量配置在`.env`文件中，并使用`docker compose up -d`命令使其生效，不建议直接修改`docker-compose.yml`中的环境变量。
 
 1. Micam:
-   - `MILOCO_BASE_URL`: Miloco WebUI URL, Default: `https://miloco:8000`
+   - `MILOCO_BASE_URL`: Miloco Base URL, Default: `https://miloco:8000`
      > 如果通过[HAOS加载项](https://gitee.com/hasscc/addons)部署，则应配置为`https://homeassistant.local:28800`
    - `MILOCO_PASSWORD`: Miloco WebUI Password (md5/lower), Required
    - `CAMERA_ID`: Camera DID, Required
      > 可在Miloco网页中通过F12开发者工具的网络请求日志查看
    - `RTSP_URL`: RTSP URL, Required
      > 转推RTSP流地址，如: `rtsp://192.168.1.xx:8554/your_stream1`，8554为Go2rtc提供的RTSP服务
-   - `VIDEO_CODEC`: Video Codec of the camera, Default: `hevc`
+   - `VIDEO_CODEC`: Video Codec of the camera, `hevc`(default) or `h264`
    - `STREAM_CHANNEL`: Stream Channel of the camera, Default: `0`
 
 2. Miloco:
@@ -82,8 +83,8 @@ docker compose up -d
 
 ## Integrations / 集成
 - [Home Assistant: Generic Camera](https://www.home-assistant.io/integrations/generic)
-- [Frigate NVR](https://github.com/blakeblackshear/frigate) / [HAOS Add-on](https://github.com/blakeblackshear/frigate-hass-addons)
-- [Scrypted](https://github.com/koush/scrypted) / [HAOS Add-on](https://github.com/koush/scrypted/wiki/Installation:-Home-Assistant-OS)
+- [Frigate NVR](https://github.com/blakeblackshear/frigate): [HAOS Add-on](https://github.com/blakeblackshear/frigate-hass-addons)
+- [Scrypted](https://github.com/koush/scrypted): [HAOS Add-on](https://github.com/koush/scrypted/wiki/Installation:-Home-Assistant-OS)
 
 
 ## Links / 相关链接
